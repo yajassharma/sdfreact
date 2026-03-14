@@ -1,6 +1,19 @@
-import { Smartphone, Download } from "lucide-react";
+"use client";
+
+import { Smartphone, Download, Info, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function DownloadSection() {
+    const [showPlayStoreNote, setShowPlayStoreNote] = useState(false);
+
+    useEffect(() => {
+        if (showPlayStoreNote) {
+            const timer = setTimeout(() => setShowPlayStoreNote(false), 6000);
+            return () => clearTimeout(timer);
+        }
+    }, [showPlayStoreNote]);
+
     return (
         <section className="py-32 px-4 md:px-8 max-w-7xl mx-auto relative z-20">
             <div className="flex flex-col md:flex-row items-center justify-between gap-16">
@@ -64,22 +77,52 @@ export default function DownloadSection() {
                         Join millions of users worldwide. Experience the next generation of social streaming, gifting, and community building all in one app.
                     </p>
 
-                    <div className="flex flex-col sm:flex-row gap-4">
-                        <button className="flex items-center justify-center gap-3 bg-white text-black font-bold py-4 px-6 rounded-2xl hover:bg-gray-200 transition-colors">
+                    <div className="flex flex-col sm:flex-row gap-4 relative">
+                        <a
+                            href="https://www.mediafire.com/file/m7c8c6jpuuh407e/SDF-GO-BUGS+(1).apk/file"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-3 bg-white text-black font-bold py-4 px-6 rounded-2xl hover:bg-gray-200 transition-colors relative"
+                        >
                             <div className="flex-1 text-left">
-                                <div className="text-[10px] font-bold opacity-60">GET IT ON</div>
-                                <div className="text-lg leading-none">Google Play</div>
+                                <div className="text-[10px] font-bold opacity-60">DOWNLOAD</div>
+                                <div className="text-lg leading-none">Android APK</div>
                             </div>
                             <Download size={24} />
-                        </button>
+                        </a>
 
-                        <button className="flex items-center justify-center gap-3 bg-[var(--color-primary)] border border-white/20 text-white font-bold py-4 px-6 rounded-2xl hover:bg-white/5 transition-colors">
-                            <div className="flex-1 text-left">
-                                <div className="text-[10px] font-bold opacity-60">Download on the</div>
-                                <div className="text-lg leading-none">App Store</div>
-                            </div>
-                            <Smartphone size={24} />
-                        </button>
+                        <AnimatePresence>
+                            {showPlayStoreNote && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                                    className="absolute bottom-full left-0 mb-4 w-full sm:w-[320px] glass p-6 rounded-3xl border border-white/20 shadow-2xl z-50 backdrop-blur-xl"
+                                >
+                                    <div className="flex gap-4">
+                                        <div className="w-10 h-10 rounded-full bg-[var(--color-accent-blue)]/20 flex items-center justify-center shrink-0">
+                                            <Info size={20} className="text-[var(--color-accent-blue)]" />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-white font-bold text-sm mb-1 uppercase tracking-wider">Play Store Status</h4>
+                                            <p className="text-white/70 text-xs leading-relaxed">
+                                                SdfGo Live is actively working and cooperating with Google Play to bring the app to the Play Store very soon. Stay tuned!
+                                            </p>
+                                        </div>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setShowPlayStoreNote(false);
+                                            }}
+                                            className="text-white/30 hover:text-white transition-colors"
+                                        >
+                                            <X size={16} />
+                                        </button>
+                                    </div>
+                                    <div className="absolute -bottom-2 left-8 w-4 h-4 glass border-r border-b border-white/20 rotate-45" />
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
                 </div>
             </div>

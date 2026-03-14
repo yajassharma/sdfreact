@@ -27,32 +27,41 @@ export default function HeroOverlay({ scrollYProgress }: HeroOverlayProps) {
             {/* Section 1 */}
             <motion.div
                 style={{ opacity: opacity1, y: y1, pointerEvents: pointer1 as any }}
-                className="absolute inset-0 flex flex-col items-center justify-center text-center px-4"
+                className="absolute inset-0 flex flex-col items-center justify-center text-center px-6"
             >
-                <div className="w-full max-w-[90vw] md:max-w-7xl flex justify-center">
-                    <img
-                        src="/hero-text.png"
-                        alt="SDF Go LIVE"
-                        className="w-full h-auto max-w-full -mb-4 md:-mb-20 opacity-95 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]"
-                    />
-                </div>
+                <img
+                    src="/hero-text.png"
+                    alt="SDF Go LIVE"
+                    className="w-[200%] md:w-[100%] max-w-12xl -mb-10 md:-mb-20 opacity-90 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all"
+                />
 
-                <p className="max-w-[85vw] md:max-w-xl mx-auto mt-6 md:mt-0 text-sm md:text-xl text-white/80 leading-relaxed font-sans px-2" style={{ fontFamily: "var(--font-lato), sans-serif" }}>
+                <p className="max-w-small md:max-w-xl mx-auto mt-4 md:mt-0 text-base md:text-xl text-white/90 leading-relaxed font-sans px-4" style={{ fontFamily: "var(--font-lato), sans-serif" }}>
                     India's premier destination for high-performance live streaming.
                     Empowering creators to build their kingdoms with real-time 3D gifting and
                     seamless voice room interactions.
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-4 md:gap-6 mt-10 md:mt-12 items-center w-full max-w-[280px] sm:max-w-none">
-                    <div className="cta-btn-wrapper scale-90 md:scale-100 w-full sm:w-auto">
-                        <button className="w-full relative z-10 bg-gradient-to-r from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a] text-white font-black py-4 px-8 md:px-10 rounded-full tracking-widest uppercase text-[10px] md:text-sm shadow-[0_0_40px_rgba(255,255,255,0.15)] flex items-center justify-center gap-2 md:gap-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" x2="12" y1="15" y2="3" /></svg>
+                <div className="flex flex-col sm:flex-row gap-4 md:gap-6 mt-8 md:mt-12 items-center">
+                    {/* Primary CTA — rotating silver stroke */}
+                    <div className="cta-btn-wrapper scale-90 md:scale-100">
+                        <a
+                            href="https://www.mediafire.com/file/m7c8c6jpuuh407e/SDF-GO-BUGS+(1).apk/file"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="relative z-10 bg-gradient-to-r from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a] text-white font-black py-4 px-8 md:px-10 rounded-full tracking-widest uppercase text-xs md:text-sm shadow-[0_0_40px_rgba(255,255,255,0.15),inset_0_1px_0_rgba(255,255,255,0.2)] hover:shadow-[0_0_60px_rgba(255,255,255,0.3),inset_0_1px_0_rgba(255,255,255,0.3)] transition-all duration-300 transform hover:scale-[1.03] flex items-center gap-2 md:gap-3"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" x2="12" y1="15" y2="3" /></svg>
                             Download App
-                        </button>
+                        </a>
                     </div>
-                    <button className="w-full sm:w-auto glass text-white font-bold py-3.5 px-6 md:py-4 md:px-8 rounded-full hover:bg-white/10 transition-all duration-300 text-xs md:text-base border border-white/10 uppercase tracking-widest">
+                    <a
+                        href="https://forms.gle/JvYsyzffHVJD6VhMA"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="glass text-white font-bold py-3.5 px-6 md:py-4 md:px-8 rounded-full hover:bg-white/10 transition-all duration-300 text-sm md:text-base inline-block"
+                    >
                         Become a Creator
-                    </button>
+                    </a>
                 </div>
             </motion.div>
 

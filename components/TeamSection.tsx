@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Github, Twitter, Linkedin, ArrowRight, X, Briefcase, ShieldCheck } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useLenis } from "lenis/react";
 
 const teamMembers = [
     {
@@ -13,9 +14,7 @@ const teamMembers = [
         fullBio: "Sahil Kumar Singh is a visionary leader who serves as the Founder and Chairman of SDFGoLive and its associated ventures. He provides the overall strategic vision and direction for organizations including KUMASINGH BIRPUR TECHNOLOGY and Alien Technology Therapy Centre. His leadership focuses on business expansion, technological innovation, and major investment strategies to scale digital platforms into global ecosystems. By guiding management teams and fostering strategic partnerships, he maintains the brand's reputation while planning long-term growth and operational excellence.",
         details: {
             associated: [
-                "KUMASINGH BIRPUR TECHNOLOGY PRIVATE LIMITED (CIN: U29190BR2022PTC058448)",
-                "Alien Technology Therapy Centre",
-                "SDFGoLive (UDYAM: UDYAM-BR-01-0006809, GST: 29FXFPS3039J1ZW)"
+                "KUMASINGH BIRPUR TECHNOLOGY PRIVATE LIMITED, Alien Technology Therapy Centre, SDFGoLive"
             ]
         },
         social: { twitter: "#", linkedin: "#", github: "#" }
@@ -40,18 +39,22 @@ const teamMembers = [
 
 export default function TeamSection() {
     const [selectedMember, setSelectedMember] = useState<typeof teamMembers[0] | null>(null);
+    const lenis = useLenis();
 
-    // Lock body scroll when modal is open
+    // Lock body scroll and pause Lenis when modal is open
     useEffect(() => {
         if (selectedMember) {
             document.body.style.overflow = "hidden";
+            lenis?.stop();
         } else {
             document.body.style.overflow = "unset";
+            lenis?.start();
         }
         return () => {
             document.body.style.overflow = "unset";
+            lenis?.start();
         };
-    }, [selectedMember]);
+    }, [selectedMember, lenis]);
 
     return (
         <section className="py-24 px-4 md:px-8 max-w-7xl mx-auto relative z-20">
@@ -60,7 +63,7 @@ export default function TeamSection() {
                     OUR <span className="italic px-2" style={{ fontFamily: "var(--font-cormorant), serif", color: "#E6C9A8", textTransform: "lowercase", fontWeight: 300 }}>leadership</span>{" "}
                     <span className="text-gradient-live">BOARD</span>
                 </h2>
-                <p className="text-xl text-white/70 max-w-2xl mx-auto">
+                <p className="text-xl text-white/70 max-w-2xl mx-auto font-sans">
                     Visionaries driving the technological landscape of SDF Go Live.
                 </p>
             </div>
@@ -87,7 +90,7 @@ export default function TeamSection() {
                         <p className="text-[var(--color-accent-orange)] font-medium mb-4 text-[10px] tracking-widest uppercase">
                             {member.role}
                         </p>
-                        <p className="text-white/60 text-sm leading-relaxed mb-6">
+                        <p className="text-white/60 text-sm leading-relaxed mb-6 font-sans">
                             {member.partialBio}
                         </p>
                         <button className="text-[var(--color-accent-blue)] text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 group-hover:gap-3 transition-all">
@@ -120,46 +123,44 @@ export default function TeamSection() {
                             initial={{ opacity: 0, scale: 0.95, y: 10 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                            className="relative w-full max-w-2xl bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl flex flex-col max-h-[85vh]"
+                            className="relative w-full max-w-2xl max-h-[85vh] bg-[#0a0a0a] border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl flex flex-col"
                         >
+                            {/* Close button - more accessible on mobile */}
                             <button
                                 onClick={() => setSelectedMember(null)}
-                                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white z-20 shadow-lg"
+                                className="absolute top-4 right-4 md:top-6 md:right-6 p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white z-50 transition-all active:scale-95"
                             >
                                 <X size={20} />
                             </button>
 
-                            <div className="p-6 md:p-12 overflow-y-auto custom-scrollbar">
-                                <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 mb-8 md:mb-10">
-                                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-[var(--color-accent-blue)]/30 shrink-0 shadow-[0_0_20px_rgba(255,51,51,0.2)]">
+                            <div className="flex-1 overflow-y-auto custom-scrollbar p-6 md:p-12">
+                                <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 mb-8 md:mb-10 pt-4 md:pt-0">
+                                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-[var(--color-accent-blue)]/30 shrink-0">
                                         <img src={selectedMember.image} alt={selectedMember.name} className="w-full h-full object-cover" />
                                     </div>
                                     <div className="text-center md:text-left">
-                                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">{selectedMember.name}</h3>
+                                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">{selectedMember.name}</h3>
                                         <p className="text-[var(--color-accent-orange)] font-bold text-xs md:text-sm tracking-widest uppercase">
                                             {selectedMember.role}
                                         </p>
                                     </div>
                                 </div>
 
-                                <div className="space-y-6">
+                                <div className="space-y-6 md:space-y-8">
                                     <div>
-                                        <h4 className="flex items-center gap-2 text-[10px] md:text-xs font-black text-[var(--color-accent-blue)] uppercase tracking-[0.2em] mb-4">
-                                            <Briefcase size={12} className="md:size-[14px]" /> Professional Profile
-                                        </h4>
                                         <p className="text-white/80 text-sm md:text-base leading-relaxed font-sans">
                                             {selectedMember.fullBio}
                                         </p>
                                     </div>
 
                                     {selectedMember.details?.associated && (
-                                        <div className="pt-6 border-t border-white/5">
-                                            <h4 className="flex items-center gap-2 text-[10px] md:text-xs font-black text-white/30 uppercase tracking-[0.2em] mb-4">
-                                                <ShieldCheck size={12} className="md:size-[14px]" /> Strategic Associations
+                                        <div className="pt-0 border-t border-white/5">
+                                            <h4 className="flex items-center gap-2 text-[10px] md:text-xs font-black text-white/30 uppercase mb-3 md:mb-4">
+                                                <ShieldCheck size={14} /> Strategic Associations
                                             </h4>
-                                            <ul className="space-y-2">
+                                            <ul className="space-y-3">
                                                 {selectedMember.details.associated.map((item, i) => (
-                                                    <li key={i} className="text-[10px] md:text-xs text-white/40 leading-tight">
+                                                    <li key={i} className="text-[10px] md:text-xs text-white/40 leading-tight bg-white/5 p-3 rounded-xl border border-white/5">
                                                         {item}
                                                     </li>
                                                 ))}

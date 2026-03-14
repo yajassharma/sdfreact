@@ -30,6 +30,9 @@ const lato = Lato({
 export const metadata: Metadata = {
   title: "SDF Go Live | India's Next Generation Live Streaming Platform",
   description: "Stream. Connect. Earn. Where Creators Build Kingdoms.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({

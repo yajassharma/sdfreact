@@ -38,10 +38,14 @@ export default function AgencySection() {
                                 <div className="font-bold">Dedicated Support</div>
                             </div>
                         </div>
-
-                        <button className="bg-white text-black font-bold py-4 px-8 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] transition-all duration-300 transform hover:scale-105">
+                        <a
+                            href="https://forms.gle/JvYsyzffHVJD6VhMA"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-white text-black font-bold py-4 px-8 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] transition-all duration-300 transform hover:scale-105 inline-block"
+                        >
                             Join the Agency Program
-                        </button>
+                        </a>
                     </div>
 
                     <div className="w-full lg:w-1/2 relative flex justify-center perspective-[1000px]">
