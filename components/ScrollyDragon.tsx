@@ -129,16 +129,23 @@ export default function ScrollyDragon() {
 
     useEffect(() => {
         const handleResize = () => {
-            if (loaded) {
-                requestAnimationFrame(() => renderFrame(Math.min(Math.floor(frameIndex.get()), FRAME_COUNT - 1)));
+            if (canvasRef.current) {
+                canvasRef.current.width = window.innerWidth;
+                canvasRef.current.height = window.innerHeight;
+                if (loaded) {
+                    const currentProgress = scrollYProgress.get();
+                    const frameToRender = Math.min(Math.floor((currentProgress / 0.8) * (FRAME_COUNT - 1)), FRAME_COUNT - 1);
+                    renderFrame(frameToRender);
+                }
             }
         };
         window.addEventListener("resize", handleResize);
+        handleResize();
         return () => window.removeEventListener("resize", handleResize);
-    }, [loaded]);
+    }, [loaded, images]);
 
     return (
-        <section ref={containerRef} className="h-[600vh] w-full relative bg-[var(--background)]">
+        <section ref={containerRef} className="h-[600vh] w-full relative bg-[var(--background)] overflow-hidden">
             <div className="sticky top-0 h-screen w-full bg-black overflow-hidden">
                 {!loaded && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center z-[200] bg-[#050505] overflow-hidden">

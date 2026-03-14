@@ -120,23 +120,23 @@ export default function TeamSection() {
                             initial={{ opacity: 0, scale: 0.95, y: 10 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                            className="relative w-full max-w-2xl bg-[#0a0a0a] border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl flex flex-col"
+                            className="relative w-full max-w-2xl bg-[#0a0a0a] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl flex flex-col max-h-[85vh]"
                         >
                             <button
                                 onClick={() => setSelectedMember(null)}
-                                className="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all z-20"
+                                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white z-20 shadow-lg"
                             >
                                 <X size={20} />
                             </button>
 
-                            <div className="p-8 md:p-12">
-                                <div className="flex flex-col md:flex-row items-center md:items-start gap-8 mb-10">
-                                    <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[var(--color-accent-blue)]/30 shrink-0">
+                            <div className="p-6 md:p-12 overflow-y-auto custom-scrollbar">
+                                <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 mb-8 md:mb-10">
+                                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-[var(--color-accent-blue)]/30 shrink-0 shadow-[0_0_20px_rgba(255,51,51,0.2)]">
                                         <img src={selectedMember.image} alt={selectedMember.name} className="w-full h-full object-cover" />
                                     </div>
                                     <div className="text-center md:text-left">
-                                        <h3 className="text-3xl font-bold text-white mb-2">{selectedMember.name}</h3>
-                                        <p className="text-[var(--color-accent-orange)] font-bold text-sm tracking-widest uppercase">
+                                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">{selectedMember.name}</h3>
+                                        <p className="text-[var(--color-accent-orange)] font-bold text-xs md:text-sm tracking-widest uppercase">
                                             {selectedMember.role}
                                         </p>
                                     </div>
@@ -144,22 +144,22 @@ export default function TeamSection() {
 
                                 <div className="space-y-6">
                                     <div>
-                                        <h4 className="flex items-center gap-2 text-xs font-black text-[var(--color-accent-blue)] uppercase tracking-[0.2em] mb-4">
-                                            <Briefcase size={14} /> Professional Profile
+                                        <h4 className="flex items-center gap-2 text-[10px] md:text-xs font-black text-[var(--color-accent-blue)] uppercase tracking-[0.2em] mb-4">
+                                            <Briefcase size={12} className="md:size-[14px]" /> Professional Profile
                                         </h4>
-                                        <p className="text-white/80 text-base leading-relaxed font-sans">
+                                        <p className="text-white/80 text-sm md:text-base leading-relaxed font-sans">
                                             {selectedMember.fullBio}
                                         </p>
                                     </div>
 
                                     {selectedMember.details?.associated && (
                                         <div className="pt-6 border-t border-white/5">
-                                            <h4 className="flex items-center gap-2 text-xs font-black text-white/30 uppercase tracking-[0.2em] mb-4">
-                                                <ShieldCheck size={14} /> Strategic Associations
+                                            <h4 className="flex items-center gap-2 text-[10px] md:text-xs font-black text-white/30 uppercase tracking-[0.2em] mb-4">
+                                                <ShieldCheck size={12} className="md:size-[14px]" /> Strategic Associations
                                             </h4>
                                             <ul className="space-y-2">
                                                 {selectedMember.details.associated.map((item, i) => (
-                                                    <li key={i} className="text-xs text-white/40 leading-tight">
+                                                    <li key={i} className="text-[10px] md:text-xs text-white/40 leading-tight">
                                                         {item}
                                                     </li>
                                                 ))}

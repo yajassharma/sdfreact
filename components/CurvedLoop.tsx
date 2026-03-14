@@ -154,11 +154,12 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
             onPointerLeave={endDrag}
         >
             <svg
-                className="select-none w-full overflow-visible block aspect-[1440/120] text-[7vw] md:text-[3rem] font-black uppercase leading-none"
+                className="select-none w-full overflow-hidden block aspect-[1440/120] text-[7vw] md:text-[3rem] font-black uppercase leading-none"
                 viewBox="0 0 1440 120"
+                preserveAspectRatio="xMidYMid slice"
             >
                 <defs>
-                    <filter id={filterId} x="-20%" y="-20%" width="140%" height="140%">
+                    <filter id={filterId} x="-10%" y="-10%" width="120%" height="120%">
                         <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
                         <feOffset dx="2" dy="2" result="offsetblur" />
                         <feFlood floodColor="#000" floodOpacity="0.8" result="color" />
@@ -175,9 +176,9 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
                         d={pathD}
                         fill="none"
                         stroke={ribbonColor}
-                        strokeWidth="80"
+                        strokeWidth="100"
                         strokeLinecap="round"
-                        className="opacity-20 blur-sm"
+                        className="opacity-15 blur-md"
                     />
                 )}
                 <text ref={measureRef} xmlSpace="preserve" style={{ visibility: 'hidden', opacity: 0, pointerEvents: 'none' }}>
