@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@theme {
+    --color-primary: #050505;
+    --color-accent-orange: #ff5500;
+    --color-accent-blue: #0088ff;
+    --color-accent-purple: #8800ff;
+
+    --font-bebas: "Bebas Neue", sans-serif;
+    --font-lato: "Lato", sans-serif;
+    --font-cormorant: "Cormorant Garamond", serif;
+}
+
+:root {
+    --background: #050505;
+    --foreground: #ffffff;
+}
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: clip;
+    overflow-x: hidden;
+    background: var(--color-primary);
+    color: white;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Glassmorphism utility */
+.glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 2rem;
+}
+
+.text-gradient {
+    background: linear-gradient(to right, #ffffff, #888888);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-live {
+    background: linear-gradient(to right, #ff5500, #ff0055, #8800ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.heading-epic {
+    font-family: var(--font-bebas);
+    font-size: clamp(3.5rem, 12vw, 9rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    line-height: 0.9;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #222;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #333;
+}
+
+/* Animation for Silver Stroke */
+@keyframes rotate-silver {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.cta-btn-wrapper {
+    position: relative;
+    padding: 2px;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.cta-btn-wrapper::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(transparent,
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.4),
+            rgba(255, 255, 255, 0.8),
+            rgba(255, 255, 255, 0.4),
+            rgba(255, 255, 255, 0.1),
+            transparent);
+    animation: rotate-silver 4s linear infinite;
+}

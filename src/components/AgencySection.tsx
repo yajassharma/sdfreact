@@ -1,0 +1,77 @@
+import { Building2, Users, TrendingUp } from "lucide-react";
+import { motion } from "framer-motion";
+
+export default function AgencySection() {
+    return (
+        <section className="py-32 px-4 md:px-8 max-w-7xl mx-auto relative z-20">
+            <div className="glass-card overflow-hidden relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-accent-purple)]/20 to-transparent pointer-events-none" />
+
+                <div className="flex flex-col lg:flex-row items-center gap-12 p-8 md:p-16 relative z-10">
+                    <div className="flex-1 text-left">
+                        <h2 className="heading-epic mb-6 text-white">
+                            Agency <span className="italic px-2" style={{ fontFamily: "'Cormorant SC', serif", color: "#FAD02E" }}>Partner</span>
+                        </h2>
+                        <p className="text-lg md:text-xl text-white/80 mb-8 max-w-2xl font-sans">
+                            Are you an agency? Recruit hosts, manage creators, and grow your community on SDF Go Live. Earn attractive commissions based on your creators' performance.
+                        </p>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10 text-white font-sans">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
+                                    <Users className="text-[var(--color-accent-blue)]" />
+                                </div>
+                                <div className="font-bold">Creator Management</div>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
+                                    <TrendingUp className="text-[var(--color-accent-orange)]" />
+                                </div>
+                                <div className="font-bold">Performance Analytics</div>
+                            </div>
+                        </div>
+                        <a
+                            href="https://forms.gle/SFxacYTAmRT4GuXq8"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-white text-black font-bold py-4 px-8 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] transition-all duration-300 transform hover:scale-105 inline-block uppercase tracking-widest text-xs"
+                        >
+                            Join the Agency Program
+                        </a>
+                    </div>
+
+                    <div className="w-full lg:w-1/2 relative flex justify-center perspective-[1000px]">
+                        <motion.div
+                            initial={{ y: 0, rotateY: 10, rotateX: 5 }}
+                            animate={{
+                                y: [0, -20, 0],
+                                rotateY: [10, 5, 10],
+                                rotateX: [5, 8, 5]
+                            }}
+                            transition={{
+                                duration: 6,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                            }}
+                            className="relative w-full max-w-[300px] aspect-[9/19.5] z-20"
+                        >
+                            <div className="absolute inset-0 rounded-[2rem] border-[8px] border-[#1a1a1a] bg-[#050505] shadow-[20px_40px_80px_rgba(0,0,0,0.6)] overflow-hidden">
+                                <div className="absolute inset-0 rounded-[2.2rem] overflow-hidden">
+                                    <video
+                                        src="/document_6170373402977640091.mov"
+                                        autoPlay
+                                        muted
+                                        loop
+                                        playsInline
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full" />
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+}
