@@ -23,7 +23,7 @@ export default function HeroOverlay({ scrollYProgress }: HeroOverlayProps) {
     const pointer3 = useTransform(scrollYProgress, (v) => (v >= 0.44 && v < 0.8 ? "auto" : "none"));
 
     return (
-        <div className="absolute inset-0 z-10 pointer-events-none overflow-x-hidden">
+        <div className="absolute inset-0 z-10 pointer-events-none">
             {/* Section 1 */}
             <motion.div
                 style={{ opacity: opacity1, y: y1, pointerEvents: pointer1 as any }}

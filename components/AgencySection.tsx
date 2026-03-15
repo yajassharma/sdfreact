@@ -9,7 +9,7 @@ export default function AgencySection() {
             <div className="glass-card overflow-hidden relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-accent-purple)]/20 to-transparent pointer-events-none" />
 
-                <div className="flex flex-col lg:flex-row items-center gap-12 p-8 md:p-16 relative z-10 overflow-hidden">
+                <div className="flex flex-col lg:flex-row items-center gap-12 p-8 md:p-16 relative z-10">
                     <div className="flex-1">
                         <h2 className="heading-epic mb-6 text-left">
                             Agency <span className="italic px-2" style={{ fontFamily: "var(--font-cormorant), serif", color: "#FAD02E" }}>Partner</span>
@@ -39,7 +39,7 @@ export default function AgencySection() {
                             </div>
                         </div>
                         <a
-                            href="https://forms.gle/JvYsyzffHVJD6VhMA"
+                            href="https://forms.gle/SFxacYTAmRT4GuXq8"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="bg-white text-black font-bold py-4 px-8 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] transition-all duration-300 transform hover:scale-105 inline-block"

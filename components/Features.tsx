@@ -66,7 +66,7 @@ export default function Features() {
                     </div>
                 ))}
             </div>
-            <div className="w-full mt-15 md:mt-40 scale-[1.2] md:scale-250 overflow-hidden">
+            <div className="w-full mt-15 md:mt-40 scale-400 md:scale-250">
                 <CurvedLoop
                     marqueeText="INDIA'S 𖥕 NEXT 𖥕 GENERATION 𖥕 LIVE 𖥕 STREAMING 𖥕 PLATFORM 𖥕 "
                     speed={3.9}

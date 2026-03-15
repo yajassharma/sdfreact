@@ -17,7 +17,6 @@ export default function ScrollyDragon() {
     const [progress, setProgress] = useState(0);
     const [minTimeElapsed, setMinTimeElapsed] = useState(false);
     const [isScrolling, setIsScrolling] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null);
 
     const { scrollYProgress } = useScroll({
@@ -28,24 +27,12 @@ export default function ScrollyDragon() {
     const frameIndex = useTransform(scrollYProgress, [0, 0.8], [0, FRAME_COUNT - 1], { clamp: true });
 
     useEffect(() => {
-        // Simple mobile detection
-        const checkMobile = () => setIsMobile(window.innerWidth < 768);
-        checkMobile();
-        window.addEventListener("resize", checkMobile);
-
         // Minimum loading time
         const timer = setTimeout(() => setMinTimeElapsed(true), 1500);
 
-        // Preload images only for non-mobile
+        // Preload images
         let loadedCount = 0;
-        const isCurrentlyMobile = window.innerWidth < 768;
-
         const preloadImages = () => {
-            if (isCurrentlyMobile) {
-                setLoaded(true);
-                return;
-            }
-
             const imgArray: HTMLImageElement[] = [];
             for (let i = 0; i < FRAME_COUNT; i++) {
                 const img = new Image();
@@ -53,6 +40,9 @@ export default function ScrollyDragon() {
                 img.onload = () => {
                     loadedCount++;
                     setProgress(Math.floor((loadedCount / FRAME_COUNT) * 100));
+                    if (loadedCount === FRAME_COUNT) {
+                        // Images are loaded, but we wait for timer too
+                    }
                 };
                 imgArray.push(img);
             }
@@ -60,21 +50,14 @@ export default function ScrollyDragon() {
         };
 
         preloadImages();
-        return () => {
-            clearTimeout(timer);
-            window.removeEventListener("resize", checkMobile);
-        };
+        return () => clearTimeout(timer);
     }, []);
 
     useEffect(() => {
-        if (isMobile) {
-            setLoaded(true);
-            return;
-        }
         if (progress === 100 && minTimeElapsed) {
             setLoaded(true);
         }
-    }, [progress, minTimeElapsed, isMobile]);
+    }, [progress, minTimeElapsed]);
 
     const renderFrame = (index: number) => {
         if (!images.length || !canvasRef.current || !images[index]) return;
@@ -82,12 +65,6 @@ export default function ScrollyDragon() {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
-
-        // Ensure dimensions are set
-        if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
 
         const img = images[index];
 
@@ -115,19 +92,21 @@ export default function ScrollyDragon() {
 
     useEffect(() => {
         if (loaded && canvasRef.current) {
+            // Set canvas dimensions once or on resize
+            canvasRef.current.width = window.innerWidth;
+            canvasRef.current.height = window.innerHeight;
             renderFrame(0);
         }
     }, [loaded]);
 
     useMotionValueEvent(scrollYProgress, "change", (latest) => {
-        const currentlyScrolling = latest > 0.001 && latest < 0.8;
+        const currentlyScrolling = latest > 0.001 && latest < 0.8; // Dragon stops after 80%
         if (currentlyScrolling !== isScrolling) {
             setIsScrolling(currentlyScrolling);
         }
         if (loaded) {
             const frameToRender = Math.min(Math.floor((latest / 0.8) * (FRAME_COUNT - 1)), FRAME_COUNT - 1);
             if (latest <= 0.8) {
-                // Throttle with requestAnimationFrame
                 requestAnimationFrame(() => renderFrame(frameToRender));
             } else {
                 requestAnimationFrame(() => renderFrame(FRAME_COUNT - 1));
@@ -149,7 +128,9 @@ export default function ScrollyDragon() {
 
     useEffect(() => {
         const handleResize = () => {
-            if (loaded) {
+            if (loaded && canvasRef.current) {
+                canvasRef.current.width = window.innerWidth;
+                canvasRef.current.height = window.innerHeight;
                 requestAnimationFrame(() => renderFrame(Math.min(Math.floor(frameIndex.get()), FRAME_COUNT - 1)));
             }
         };
@@ -205,14 +186,12 @@ export default function ScrollyDragon() {
                     autoPlay
                     loop
                     playsInline
-                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${(isMobile || !isScrolling) && loaded ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${!isScrolling && loaded ? "opacity-100" : "opacity-0 pointer-events-none"}`}
                 />
-                {!isMobile && (
-                    <canvas
-                        ref={canvasRef}
-                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${isScrolling && loaded ? "opacity-100" : "opacity-0"}`}
-                    />
-                )}
+                <canvas
+                    ref={canvasRef}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${isScrolling && loaded ? "opacity-100" : "opacity-0"}`}
+                />
                 <HeroOverlay scrollYProgress={scrollYProgress} />
             </div>
         </section>

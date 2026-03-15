@@ -38,7 +38,7 @@ export default function TermsPage() {
                                 Welcome to SDF Go Live. These Terms and Conditions govern your use of our website and services. By accessing or using our platform, you agree to be bound by these terms.
                             </p>
                             <p>
-                                SDF Go Live is owned and operated by KUMASINGH BIRPUR TECHNOLOGY PRIVATE LIMITED. Our mission is to provide a premium live streaming destination for creators in India and beyond.
+                                SDF Go Live is owned and operated by Sahil Kumar Singh. Our mission is to provide a premium live streaming destination for creators in India and beyond.
                             </p>
                         </section>
 
