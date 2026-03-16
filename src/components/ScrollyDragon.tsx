@@ -13,10 +13,7 @@ export default function ScrollyDragon() {
     const containerRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
 
-    const [loaded, setLoaded] = useState(false);
-    const [progress, setProgress] = useState(0);
-    const [isScrolling, setIsScrolling] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
+    const [videoReady, setVideoReady] = useState(false);
 
     const imagesRef = useRef<(HTMLImageElement | null)[]>(new Array(FRAME_COUNT).fill(null));
     const lastRenderedFrame = useRef<number>(-1);
@@ -41,15 +38,21 @@ export default function ScrollyDragon() {
             return new Promise((resolve) => {
                 const img = new Image();
                 img.src = getFrameUrl(index);
-                img.onload = () => {
+                img.onload = async () => {
+                    // Start decoding immediately to avoid main-thread jank later
+                    if ('decode' in img) {
+                        try { await img.decode(); } catch (e) { /* ignore */ }
+                    }
                     imagesRef.current[index] = img;
                     loadedCount++;
                     setProgress(Math.floor((loadedCount / totalToLoad) * 100));
-                    if (index === 0 && !loaded) {
+
+                    if (index === 0) {
                         requestAnimationFrame(() => renderFrame(0));
                     }
-                    if (loadedCount >= INITIAL_PRELOAD_COUNT) {
-                        setLoaded(true);
+
+                    if (loadedCount >= INITIAL_PRELOAD_COUNT && !loaded) {
+                        // We don't set loaded yet, we wait for videoReady in the render block
                     }
                     resolve();
                 };
@@ -60,32 +63,25 @@ export default function ScrollyDragon() {
         const startLoading = async () => {
             const isLowEnd = window.innerWidth < 480;
 
-            // Priority 1: Start and end frames
-            const criticalIndices = [0, 1, 2, 3, FRAME_COUNT - 1];
+            // Priority 1: Critical start/end frames
+            const criticalIndices = [0, 1, 2, 3, 4, 5, FRAME_COUNT - 1];
             await Promise.all(criticalIndices.map(loadImage));
 
-            // Priority 2: Preload initial set
-            const initialSet = Array.from({ length: INITIAL_PRELOAD_COUNT }, (_, i) => i);
-            await Promise.all(initialSet.map(loadImage));
+            // Priority 2: Spread throughout the range to ensure dragon is always visible
+            // Load every 10th frame first
+            const spread = [];
+            for (let i = 0; i < FRAME_COUNT; i += 10) spread.push(i);
+            await Promise.all(spread.filter(i => !imagesRef.current[i]).map(loadImage));
 
-            // Priority 3: Remainder in batches
+            // Priority 3: Batched rest
             const remainingIndices = Array.from({ length: FRAME_COUNT }, (_, i) => i)
                 .filter(i => !imagesRef.current[i]);
 
-            // For low end mobile, load every other frame first to get interactivity faster
-            if (isLowEnd) {
-                const everyOther = remainingIndices.filter(i => i % 2 === 0);
-                for (let i = 0; i < everyOther.length; i += 10) {
-                    await Promise.all(everyOther.slice(i, i + 10).map(loadImage));
-                }
-                const missed = remainingIndices.filter(i => i % 2 !== 0);
-                for (let i = 0; i < missed.length; i += 5) {
-                    await Promise.all(missed.slice(i, i + 5).map(loadImage));
-                }
-            } else {
-                for (let i = 0; i < remainingIndices.length; i += 10) {
-                    await Promise.all(remainingIndices.slice(i, i + 10).map(loadImage));
-                }
+            const batchSize = isLowEnd ? 5 : 10;
+            for (let i = 0; i < remainingIndices.length; i += batchSize) {
+                await Promise.all(remainingIndices.slice(i, i + batchSize).map(loadImage));
+                // Allow UI to breathe
+                await new Promise(r => setTimeout(r, 0));
             }
         };
 
@@ -93,7 +89,6 @@ export default function ScrollyDragon() {
 
         const handleResize = () => {
             if (canvasRef.current) {
-                // Resolution scaling for low end
                 const scale = window.innerWidth < 480 ? 0.75 : 1;
                 canvasRef.current.width = window.innerWidth * scale;
                 canvasRef.current.height = window.innerHeight * scale;
@@ -111,8 +106,29 @@ export default function ScrollyDragon() {
     }, []);
 
     const renderFrame = (index: number) => {
-        const img = imagesRef.current[index];
-        if (!img || !canvasRef.current) return;
+        if (!canvasRef.current) return;
+
+        // Closest frame search logic to prevent "stuck" or empty canvas
+        let img = imagesRef.current[index];
+        if (!img) {
+            // Find nearest loaded frame
+            let left = index - 1;
+            let right = index + 1;
+            while (left >= 0 || right < FRAME_COUNT) {
+                if (left >= 0 && imagesRef.current[left]) {
+                    img = imagesRef.current[left];
+                    break;
+                }
+                if (right < FRAME_COUNT && imagesRef.current[right]) {
+                    img = imagesRef.current[right];
+                    break;
+                }
+                left--;
+                right++;
+            }
+        }
+
+        if (!img) return;
 
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d", { alpha: false });
@@ -160,10 +176,19 @@ export default function ScrollyDragon() {
             if (isScrolling) {
                 videoRef.current.pause();
             } else if (loaded) {
-                videoRef.current.play().catch(() => { });
+                const playPromise = videoRef.current.play();
+                if (playPromise !== undefined) playPromise.catch(() => { });
             }
         }
     }, [isScrolling, loaded]);
+
+    // Only mark as fully loaded when critical frames AND video are ready
+    useEffect(() => {
+        const hasCriticalFrames = imagesRef.current[0] && imagesRef.current[1];
+        if (hasCriticalFrames && videoReady && !loaded) {
+            setLoaded(true);
+        }
+    }, [progress, videoReady]);
 
     return (
         <section ref={containerRef} className="h-[600vh] w-full relative bg-[#050505]">
@@ -211,6 +236,7 @@ export default function ScrollyDragon() {
                     autoPlay
                     loop
                     playsInline
+                    onCanPlayThrough={() => setVideoReady(true)}
                     className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${!isScrolling && loaded ? "opacity-100" : "opacity-0 pointer-events-none"}`}
                 />
 
