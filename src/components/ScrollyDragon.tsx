@@ -3,7 +3,7 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import HeroOverlay from "./HeroOverlay";
 
 const FRAME_COUNT = 128;
-const INITIAL_PRELOAD_COUNT = 15;
+const INITIAL_PRELOAD_COUNT = 10;
 
 const getFrameUrl = (index: number) =>
     `/ezgif-split/frame_${index.toString().padStart(3, "0")}_delay-0.062s.webp`;
@@ -14,6 +14,10 @@ export default function ScrollyDragon() {
     const videoRef = useRef<HTMLVideoElement>(null);
 
     const [videoReady, setVideoReady] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const [isScrolling, setIsScrolling] = useState(false);
+    const [progress, setProgress] = useState(0);
+    const [loaded, setLoaded] = useState(false);
 
     const imagesRef = useRef<(HTMLImageElement | null)[]>(new Array(FRAME_COUNT).fill(null));
     const lastRenderedFrame = useRef<number>(-1);
@@ -182,13 +186,26 @@ export default function ScrollyDragon() {
         }
     }, [isScrolling, loaded]);
 
-    // Only mark as fully loaded when critical frames AND video are ready
+    // Only mark as fully loaded when critical frames are ready
     useEffect(() => {
-        const hasCriticalFrames = imagesRef.current[0] && imagesRef.current[1];
+        const hasCriticalFrames = imagesRef.current[0] && imagesRef.current[1] && imagesRef.current[2];
+
+        // Balanced Loading:
+        // We wait for the video to be ready, BUT we cap that wait at 3 seconds max
+        // to prevent the 15s "black screen" feeling on slow connections.
+        const timer = setTimeout(() => {
+            if (hasCriticalFrames && !loaded) {
+                setLoaded(true);
+            }
+        }, 3000);
+
         if (hasCriticalFrames && videoReady && !loaded) {
             setLoaded(true);
+            clearTimeout(timer);
         }
-    }, [progress, videoReady]);
+
+        return () => clearTimeout(timer);
+    }, [progress, videoReady, loaded]);
 
     return (
         <section ref={containerRef} className="h-[600vh] w-full relative bg-[#050505]">
@@ -237,7 +254,7 @@ export default function ScrollyDragon() {
                     loop
                     playsInline
                     onCanPlayThrough={() => setVideoReady(true)}
-                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${!isScrolling && loaded ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${!isScrolling && loaded && videoReady ? "opacity-100" : "opacity-0 pointer-events-none"}`}
                 />
 
                 <canvas

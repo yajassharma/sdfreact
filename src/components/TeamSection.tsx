@@ -48,19 +48,20 @@ export default function TeamSection() {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-16 relative z-10">
                 {teamMembers.map((member, idx) => (
                     <motion.div
                         key={idx}
                         onClick={() => setSelectedMember(member)}
-                        className="glass-card p-10 flex flex-col items-center text-center group cursor-pointer hover:border-[#ff5500]/30 transition-all duration-500"
+                        whileHover={{ y: -10 }}
+                        className="glass-card p-8 md:p-10 flex flex-col items-center text-center group cursor-pointer hover:border-[#ff5500]/30 transition-all duration-500"
                     >
-                        <div className="w-24 h-24 rounded-full overflow-hidden mb-8 border-2 border-white/10 group-hover:border-[#ff5500] transition-colors duration-500">
-                            <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                        <div className="w-28 h-28 rounded-2xl overflow-hidden mb-8 border border-white/10 group-hover:border-[#ff5500]/50 transition-all duration-500 shadow-2xl">
+                            <img src={member.image} alt={member.name} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700" />
                         </div>
-                        <h3 className="text-2xl font-black text-white mb-2 uppercase tracking-tight">{member.name}</h3>
+                        <h3 className="text-xl md:text-2xl font-black text-white mb-2 uppercase tracking-tight">{member.name}</h3>
                         <p className="text-[#ff5500] font-bold mb-6 text-[10px] tracking-widest uppercase">{member.role}</p>
-                        <p className="text-white/50 text-sm leading-relaxed mb-10 font-sans">{member.partialBio}</p>
+                        <p className="text-white/50 text-sm leading-relaxed mb-10 font-sans line-clamp-3">{member.partialBio}</p>
                         <button className="text-[#0088ff] text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 group-hover:gap-4 transition-all">Executive Profile <ArrowRight size={12} /></button>
                     </motion.div>
                 ))}
@@ -76,19 +77,44 @@ export default function TeamSection() {
 
             <AnimatePresence>
                 {selectedMember && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedMember(null)} className="absolute inset-0 bg-black/95 backdrop-blur-xl" />
-                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="relative w-full max-w-2xl max-h-[85vh] bg-[#0a0a0a] border border-white/10 rounded-[3rem] overflow-hidden shadow-2xl flex flex-col">
-                            <button onClick={() => setSelectedMember(null)} className="absolute top-8 right-8 p-3 rounded-full bg-white/5 hover:bg-white/10 text-white z-50 transition-colors"><X size={20} /></button>
-                            <div className="flex-1 overflow-y-auto p-12 md:p-16 text-left">
-                                <div className="flex items-center gap-8 mb-12">
-                                    <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#0088ff]/30"><img src={selectedMember.image} alt={selectedMember.name} className="w-full h-full object-cover" /></div>
-                                    <div>
-                                        <h3 className="text-3xl font-black text-white uppercase tracking-tight leading-none mb-2">{selectedMember.name}</h3>
-                                        <p className="text-[#ff5500] font-bold text-sm tracking-widest uppercase">{selectedMember.role}</p>
-                                    </div>
+                    <div className="fixed inset-0 z-[500] flex items-center justify-center p-4 md:p-8">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setSelectedMember(null)}
+                            className="absolute inset-0 bg-black/95 backdrop-blur-2xl"
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 50, scale: 0.95 }}
+                            className="relative w-full max-w-5xl bg-[#0a0a0a] border border-white/10 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl flex flex-col md:flex-row min-h-[50vh] md:min-h-0"
+                        >
+                            <button
+                                onClick={() => setSelectedMember(null)}
+                                className="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 text-white z-[600] transition-colors"
+                            >
+                                <X size={20} />
+                            </button>
+
+                            {/* Left Side: Image */}
+                            <div className="w-full md:w-[40%] bg-gradient-to-br from-[#111] to-black relative min-h-[300px] md:min-h-full">
+                                <img src={selectedMember.image} alt={selectedMember.name} className="absolute inset-0 w-full h-full object-cover" />
+                                <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/20 via-transparent to-transparent md:to-[#0a0a0a]" />
+                            </div>
+
+                            {/* Right Side: Content */}
+                            <div className="flex-1 p-8 md:p-16 flex flex-col justify-center">
+                                <div className="mb-8">
+                                    <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none mb-4">{selectedMember.name}</h3>
+                                    <div className="h-1 w-20 bg-[#ff5500] mb-6" />
+                                    <p className="text-[#ff5500] font-black text-xs md:text-sm tracking-[0.3em] uppercase mb-8">{selectedMember.role}</p>
                                 </div>
-                                <p className="text-white/70 leading-relaxed font-sans text-lg">{selectedMember.fullBio}</p>
+                                <div className="prose prose-invert max-w-none">
+                                    <p className="text-white/70 leading-relaxed font-sans text-base md:text-lg italic mb-6">"{selectedMember.partialBio}"</p>
+                                    <p className="text-white/50 leading-relaxed font-sans text-sm md:text-base">{selectedMember.fullBio}</p>
+                                </div>
                             </div>
                         </motion.div>
                     </div>
