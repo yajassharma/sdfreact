@@ -26,13 +26,16 @@ export default function HeroOverlay({ scrollYProgress }: HeroOverlayProps) {
                 <img
                     src="/hero-text.png"
                     alt="SDF Go LIVE"
-                    className="w-full md:w-[100%] max-w-12xl -mb-10 md:-mb-20 opacity-90 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all px-4"
+                    className="w-[110%] md:w-[100%] max-w-none md:max-w-12xl -mb-10 md:-mb-20 opacity-90 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all"
                 />
 
-                <p className="max-w-small md:max-w-xl mx-auto mt-4 md:mt-2 text-base md:text-m text-white/90 leading-tight font-sans px-4">
-                    India's premier destination for high-performance live streaming.
-                    Empowering creators to build their kingdoms with real-time 3D gifting and
-                    seamless voice room interactions.
+                <p className="max-w-small md:max-w-xl mx-auto mt-4 md:mt-0 text-[13px] md:text-xl text-white leading-tight md:leading-relaxed font-sans px-4 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+                    <span className="md:hidden">Empowering creators to build their kingdoms with high-performance live streaming, real-time 3D gifting and seamless voice room interactions.</span>
+                    <span className="hidden md:inline">
+                        India's premier destination for high-performance live streaming.
+                        Empowering creators to build their kingdoms with real-time 3D gifting and
+                        seamless voice room interactions.
+                    </span>
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 md:gap-6 mt-8 md:mt-12 items-center">

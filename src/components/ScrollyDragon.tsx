@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import HeroOverlay from "./HeroOverlay";
 
 const FRAME_COUNT = 128;
@@ -169,8 +169,8 @@ export default function ScrollyDragon() {
         <section ref={containerRef} className="h-[600vh] w-full relative bg-[#050505]">
             <div className="sticky top-0 h-screen w-full bg-[#050505] overflow-hidden z-0 gpu-accelerated">
                 {!loaded && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center z-[200] bg-[#050505]">
-                        <div className="relative z-10 flex flex-col items-center">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center z-[500] bg-black">
+                        <div className="relative z-[510] flex flex-col items-center">
                             <motion.img
                                 src="/logo.png"
                                 alt="SDF Go Logo"
