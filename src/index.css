@@ -26,6 +26,13 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.gpu-accelerated {
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 /* Glassmorphism utility */
@@ -115,4 +122,18 @@ body {
             rgba(255, 255, 255, 0.1),
             transparent);
     animation: rotate-silver 4s linear infinite;
+}
+
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin-slow {
+    animation: spin-slow 10s linear infinite;
 }

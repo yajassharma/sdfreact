@@ -101,6 +101,20 @@ export default function HeroOverlay({ scrollYProgress }: HeroOverlayProps) {
                     </li>
                 </ul>
             </motion.div>
+
+            <motion.div
+                style={{ opacity: opacity1 }}
+                className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+            >
+                <span className="text-white/40 font-mono text-[10px] tracking-[0.4em] uppercase">Scroll to Reveal</span>
+                <motion.div
+                    animate={{ y: [0, 8, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="text-white/20"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m7 13 5 5 5-5" /><path d="m7 6 5 5 5-5" /></svg>
+                </motion.div>
+            </motion.div>
         </div>
     );
 }

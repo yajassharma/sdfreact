@@ -1,27 +1,58 @@
-import { useRef, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
+
+const MarqueeItem = () => (
+    <div className="flex items-center gap-8 px-4 whitespace-nowrap">
+        <span className="text-4xl md:text-6xl font-black tracking-tighter uppercase text-[#ff8c00]">India's</span>
+        <ChakraIcon />
+        <span className="text-4xl md:text-6xl font-black tracking-tighter uppercase text-white">Next</span>
+        <ChakraIcon />
+        <span className="text-4xl md:text-6xl font-black tracking-tighter uppercase text-[#228b22]">Generation</span>
+        <ChakraIcon />
+        <span className="text-4xl md:text-6xl font-black tracking-tighter uppercase text-[#ff8c00]">Live</span>
+        <ChakraIcon />
+        <span className="text-4xl md:text-6xl font-black tracking-tighter uppercase text-white">Streaming</span>
+        <ChakraIcon />
+        <span className="text-4xl md:text-6xl font-black tracking-tighter uppercase text-[#228b22]">Platform</span>
+        <ChakraIcon />
+    </div>
+);
+
+const ChakraIcon = () => (
+    <svg width="40" height="40" viewBox="0 0 100 100" className="inline-block animate-spin-slow">
+        <circle cx="50" cy="50" r="45" fill="none" stroke="#000080" strokeWidth="8" />
+        <circle cx="50" cy="50" r="10" fill="#000080" />
+        {[...Array(24)].map((_, i) => (
+            <line
+                key={i}
+                x1="50" y1="50"
+                x2={50 + 40 * Math.cos((i * 15 * Math.PI) / 180)}
+                y2={50 + 40 * Math.sin((i * 15 * Math.PI) / 180)}
+                stroke="#000080"
+                strokeWidth="2"
+            />
+        ))}
+    </svg>
+);
 
 export default function CurvedLoop() {
     return (
-        <section className="py-24 relative overflow-hidden bg-black">
-            <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-[#0e0e0e] to-transparent z-10" />
-
-            <div className="flex flex-col items-center justify-center text-center px-4 mb-16 relative z-10">
-                <h2 className="heading-epic mb-4 text-white">Infinite <span className="text-gradient-live">Vibes</span></h2>
-                <p className="text-white/40 max-w-lg mx-auto font-sans tracking-widest text-xs uppercase">Join the loop of non-stop entertainment and connection.</p>
+        <section className="py-12 bg-black overflow-hidden relative border-y border-white/5 shadow-[0_0_50px_rgba(0,0,0,1)] gpu-accelerated">
+            <div className="flex w-fit pointer-events-none">
+                <motion.div
+                    animate={{ x: [0, -50 + "%"] }}
+                    transition={{
+                        duration: 35,
+                        repeat: Infinity,
+                        ease: "linear",
+                    }}
+                    className="flex shrink-0 gpu-accelerated"
+                >
+                    <MarqueeItem />
+                    <MarqueeItem />
+                    <MarqueeItem />
+                    <MarqueeItem />
+                </motion.div>
             </div>
-
-            <div className="relative flex flex-col gap-8 opacity-40">
-                <div className="flex gap-8 animate-infinite-scroll">
-                    {[1, 2, 3, 4, 1, 2, 3, 4].map((i, idx) => (
-                        <div key={idx} className="w-64 h-80 rounded-3xl bg-white/5 border border-white/10 overflow-hidden shrink-0">
-                            <div className="w-full h-full bg-gradient-to-br from-white/10 to-transparent" />
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#0e0e0e] to-transparent z-10" />
         </section>
     );
 }
