@@ -29,7 +29,7 @@ export default function HeroOverlay({ scrollYProgress }: HeroOverlayProps) {
                     className="w-full md:w-[100%] max-w-12xl -mb-10 md:-mb-20 opacity-90 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all px-4"
                 />
 
-                <p className="max-w-small md:max-w-xl mx-auto mt-4 md:mt-0 text-base md:text-xl text-white/90 leading-relaxed font-sans px-4">
+                <p className="max-w-small md:max-w-xl mx-auto mt-4 md:mt-2 text-base md:text-m text-white/90 leading-tight font-sans px-4">
                     India's premier destination for high-performance live streaming.
                     Empowering creators to build their kingdoms with real-time 3D gifting and
                     seamless voice room interactions.
