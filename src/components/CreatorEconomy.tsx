@@ -86,33 +86,33 @@ export default function CreatorEconomy() {
                         <div className="flex items-center justify-between gap-4 md:gap-8">
                             {/* Diamonds */}
                             <div className="flex flex-col items-center gap-4 flex-1">
-                                <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-[#ff3b30]/10 flex items-center justify-center relative">
+                                <div className="w-14 h-14 md:w-24 md:h-24 rounded-full bg-[#ff3b30]/10 flex items-center justify-center relative">
                                     <div className="absolute inset-0 bg-[#ff3b30]/20 blur-2xl rounded-full opacity-50" />
                                     <img src="/diamond-icon.png" alt="Diamond" className="w-10 h-10 md:w-16 md:h-16 relative z-10 object-contain drop-shadow-[0_0_15px_rgba(255,59,48,0.5)]" />
                                 </div>
-                                <span className="text-white font-black uppercase text-xs tracking-widest opacity-80">Diamonds</span>
+                                <span className="text-white font-bold uppercase text-[0.6rem] opacity-80">Diamonds</span>
                             </div>
 
                             <ArrowRight className="text-white/20 shrink-0" />
 
                             {/* Flora */}
                             <div className="flex flex-col items-center gap-4 flex-1">
-                                <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-[#ffcc00]/10 flex items-center justify-center relative">
+                                <div className="w-14 h-14 md:w-24 md:h-24 rounded-full bg-[#ffcc00]/10 flex items-center justify-center relative">
                                     <div className="absolute inset-0 bg-[#ffcc00]/20 blur-2xl rounded-full opacity-50" />
                                     <img src="/flora-icon.png" alt="Flora" className="w-10 h-10 md:w-16 md:h-16 relative z-10 object-contain drop-shadow-[0_0_15px_rgba(255,204,0,0.5)]" />
                                 </div>
-                                <span className="text-white font-black uppercase text-xs tracking-widest opacity-80">Flora</span>
+                                <span className="text-white font-bold uppercase text-[0.6rem] opacity-80">Flora</span>
                             </div>
 
                             <ArrowRight className="text-white/20 shrink-0" />
 
                             {/* Real Cash */}
                             <div className="flex flex-col items-center gap-4 flex-1">
-                                <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-[#34c759] flex items-center justify-center relative">
+                                <div className="w-14 h-14 md:w-24 md:h-24 rounded-full bg-[#34c759] flex items-center justify-center relative">
                                     <div className="absolute inset-0 bg-[#34c759]/40 blur-2xl rounded-full shadow-[0_0_40px_rgba(52,199,89,0.3)]" />
                                     <Landmark size={32} className="text-white relative z-10" />
                                 </div>
-                                <span className="text-white font-black uppercase text-xs tracking-widest opacity-80">Real Cash</span>
+                                <span className="text-white font-bold uppercase text-[0.6rem] opacity-80">Real Cash</span>
                             </div>
                         </div>
                     </motion.div>
