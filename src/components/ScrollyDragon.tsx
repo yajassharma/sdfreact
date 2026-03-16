@@ -171,23 +171,34 @@ export default function ScrollyDragon() {
                 {!loaded && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center z-[200] bg-[#050505]">
                         <div className="relative z-10 flex flex-col items-center">
-                            <img src="/logo.png" alt="SDF Go Logo" className="w-24 md:w-32 mb-8 drop-shadow-[0_0_30px_rgba(255,85,0,0.4)]" />
-                            <div className="flex flex-col items-center gap-2 mb-6">
-                                <div className="text-white text-3xl md:text-4xl font-black text-gradient-live tracking-[0.3em] uppercase italic">
-                                    Initializing
+                            <motion.img
+                                src="/logo.png"
+                                alt="SDF Go Logo"
+                                animate={{ scale: [1, 1.05, 1] }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                className="w-24 md:w-32 mb-8 drop-shadow-[0_0_30px_rgba(255,85,0,0.4)]"
+                            />
+                            <div className="flex flex-col items-center gap-2 mb-6 text-center">
+                                <div className="text-white text-3xl md:text-5xl font-black text-gradient-live tracking-tight uppercase italic leading-none">
+                                    {progress < 30 ? "AWAKENING" : progress < 70 ? "BUILDING" : "UNLEASHING"}
                                 </div>
-                                <div className="text-[var(--color-accent-blue)] font-mono text-sm tracking-widest opacity-80 uppercase">
-                                    Optimizing Dragon Sequence
+                                <div className="text-[var(--color-accent-blue)] font-mono text-sm tracking-widest opacity-80 uppercase font-bold">
+                                    {progress < 20 ? "Feeding the dragon..." :
+                                        progress < 40 ? "Polishing the gift boxes..." :
+                                            progress < 60 ? "Connecting to the vibe..." :
+                                                progress < 80 ? "Setting the stage..." :
+                                                    "Joining the kingdom..."}
                                 </div>
                             </div>
-                            <div className="w-80 h-[4px] bg-white/5 rounded-full overflow-hidden relative mb-4">
+                            <div className="w-80 h-[6px] bg-white/5 rounded-full overflow-hidden relative mb-4">
                                 <div
                                     className="h-full bg-gradient-to-r from-[var(--color-accent-orange)] via-red-500 to-[var(--color-accent-blue)] transition-all duration-300 ease-out"
                                     style={{ width: `${progress}%` }}
                                 />
                             </div>
-                            <div className="flex justify-between w-80 font-mono text-[10px] tracking-tighter text-white/40 uppercase">
-                                <span>{progress}% READY</span>
+                            <div className="flex justify-between w-80 font-mono text-[10px] tracking-tighter text-white/40 uppercase font-bold">
+                                <span>{progress}% LOADED</span>
+                                <span>DONT BLINK</span>
                             </div>
                         </div>
                     </div>
